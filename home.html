@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>کائنات‌چی</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    :root {
+      --cream: #f7f1e5;
+      --cream-light: #fcf8ef;
+      --green: #244d3b;
+      --green-dark: #19392c;
+      --green-soft: #dce8df;
+      --green-soft-2: #e8f0e9;
+      --text: #26352d;
+      --text-soft: #66736b;
+      --border: #dfe5dc;
+      --white: #ffffff;
+      --shadow: 0 8px 24px rgba(36, 77, 59, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+      direction: rtl;
+      min-height: 100vh;
+    }
+
+    button,
+    a {
+      font-family: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+      text-align: center;
+      padding: 10px 0 8px;
+    }
+
+    .logo-wrap {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand {
+      margin: 0;
+      color: var(--green);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      margin: 7px 0 0;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .intro {
+      margin: 16px 0 20px;
+      text-align: center;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    /* =========================
+       MAIN ACTION
+    ========================= */
+
+    .primary-button {
+      width: 100%;
+      min-height: 58px;
+      border-radius: 19px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 700;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .primary-button:active {
+      transform: scale(0.98);
+      opacity: 0.92;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section {
+      margin-top: 14px;
+    }
+
+    .section-title {
+      color: var(--green);
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0 4px 10px;
+    }
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .menu-button {
+      width: 100%;
+      min-height: 54px;
+      padding: 13px 16px;
+      margin-bottom: 9px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.78);
+      color: var(--green-dark);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(36, 77, 59, 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: right;
+      font-size: 15px;
+      font-weight: 700;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .menu-button:active {
+      transform: scale(0.985);
+      background: var(--green-soft-2);
+    }
+
+    .button-arrow {
+      color: var(--green);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .two-column .menu-button {
+      min-height: 58px;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 0;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       PAGE VIEW
+    ========================= */
+
+    .page {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .back-button {
+      width: 100%;
+      min-height: 48px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .page-title {
+      color: var(--green);
+      font-size: 22px;
+      font-weight: 800;
+      margin: 5px 0 15px;
+    }
+
+    .content-card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 17px;
+      margin-bottom: 12px;
+      box-shadow: 0 5px 16px rgba(36, 77, 59, 0.04);
+    }
+
+    .content-card h3 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 16px;
+    }
+
+    .content-card p {
+      margin: 0;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    .content-image {
+      width: 100%;
+      max-height: 230px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 13px;
+      display: block;
+    }
+
+    .price {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 12px;
+      border-radius: 12px;
+      background: var(--green-soft);
+      color: var(--green-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .appointment-small {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 12px;
+      border-radius: 15px;
+      background: var(--green);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       GUIDE
+    ========================= */
+
+    .guide-box {
+      background: var(--green-soft-2);
+      border: 1px solid #d4e1d7;
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 14px;
+    }
+
+    .guide-box h3 {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 15px;
+    }
+
+    .guide-box p {
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+      text-align: center;
+      padding: 35px 10px;
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px 12px;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 2;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer {
+      text-align: center;
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(36,77,59,0.10);
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    @media (max-width: 360px) {
+      .app {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .brand {
+        font-size: 25px;
+      }
+
+      .two-column {
+        gap: 7px;
+      }
+
+      .two-column .menu-button {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =========================
+       HOME
+  ========================= -->
+
+  <section id="homePage" class="page active">
+
+    <header class="header">
+
+      <div class="logo-wrap">
+        <img
+          id="logo"
+          class="logo"
+          src="https://raw.githubusercontent.com/kaenatchi/kaenatchi/main/logo.png"
+          alt="کائنات‌چی"
+          onerror="this.style.display='none';"
+        >
+      </div>
+
+      <h1 class="brand">کائنات‌چی</h1>
+
+      <p class="tagline">
+        همراه شما در مسیر آرامش، شناخت و رشد درونی
+      </p>
+
+    </header>
+
+    <p class="intro">
+      ✨ خدمات تخصصی برای شناخت بهتر خود، آرامش ذهن
+      و تجربه‌ای متفاوت از دنیای درون
+    </p>
+
+    <button class="primary-button" onclick="openAppointment()">
+      📅 دریافت نوبت
+    </button>
+
+    <div class="section">
+
+      <button class="menu-button" onclick="showServices()">
+        <span>📋 مشاهده خدمات</span>
+        <span class="button-arrow">‹</span>
+      </button>
+
+      <button class="menu-button" onclick="showPage('companionsPage')">
+        <span>✨ همراهان کائنات‌چی</span>
+        <span class="button-arrow">‹</span>
+      </button>
+
+      <div class="two-column">
+
+        <button class="menu-button" onclick="showPage('coursesPage')">
+          🎓 کلاس‌ها
+        </button>
+
+        <button class="menu-button" onclick="showPage('eventsPage')">
+          🎟️ ایونت‌ها
+        </button>
+
+      </div>
+
+      <button class="menu-button" onclick="showPage('faqPage')">
+        <span>❓ سؤالات متداول</span>
+        <span class="button-arrow">‹</span>
+      </button>
+
+      <div class="two-column">
+
+        <button class="menu-button" onclick="openSupport()">
+          💬 پشتیبانی
+        </button>
+
+        <button class="menu-button" onclick="showPage('hoursPage')">
+          🕐 ساعات کاری
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="footer">
+      کائنات‌چی 🌿<br>
+      برای آرامش، شناخت و رشد درونی
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SERVICES
+  ========================= -->
+
+  <section id="servicesPage" class="page">
+
+    <button class="back-button" onclick="goHome()">
+      🔙 بازگشت
+    </button>
+
+    <h2 class="page-title">📋 خدمات کائنات‌چی</h2>
+
+    <div id="servicesGuide" class="guide-box" style="display:none;">
+      <h3>راهنمای خدمات</h3>
+      <p>
+        از میان خدمات زیر، خدمت موردنظر خود را انتخاب کنید
+        تا توضیحات کامل و هزینه آن را مشاهده کنید.
+      </p>
+    </div>
+
+    <div id="servicesContainer">
+      <div class="loading">در حال دریافت خدمات...</div>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SERVICE DETAIL
+  ========================= -->
+
+  <section id="serviceDetailPage" class="page">
+
+    <button class="back-button" onclick="showServices()">
+      🔙 بازگشت به خدمات
+    </button>
+
+    <div id="serviceDetailContainer"></div>
+
+  </section>
+
+
+  <!-- =========================
+       COMPANIONS
+  ========================= -->
+
+  <section id="companionsPage" class="page">
+
+    <button class="back-button" onclick="goHome()">
+      🔙 بازگشت
+    </button>
+
+    <h2 class="page-title">✨ همراهان کائنات‌چی</h2>
+
+    <div class="guide-box">
+      <h3>راهنمای همراهان کائنات‌چی</h3>
+      <p>
+        این بخش برای افرادی است که با دریافت کد یا شرایط
+        اختصاصی از طرف کائنات‌چی، امکان استفاده از مزایای
+        همراهان را دارند.
+      </p>
+    </div>
+
+    <div id="companionsContainer">
+      <div class="content-card">
+        <h3>✨ همراه کائنات‌چی</h3>
+        <p>
+          اگر کد اختصاصی همراهان کائنات‌چی را دریافت کرده‌اید،
+          می‌توانید هنگام دریافت نوبت از آن استفاده کنید.
+        </p>
+      </div>
+
+      <button class="appointment-small" onclick="openAppointment()">
+        📅 دریافت نوبت
+      </button>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       COURSES
+  ========================= -->
+
+  <section id="coursesPage" class="page">
+
+    <button class="back-button" onclick="goHome()">
+      🔙 بازگشت
+    </button>
+
+    <h2 class="page-title">🎓 کلاس‌ها</h2>
+
+    <div class="guide-box">
+      <h3>راهنمای کلاس‌ها</h3>
+      <p>
+        در این بخش کلاس‌ها و دوره‌های فعال کائنات‌چی را
+        مشاهده می‌کنید. برای هر دوره، توضیحات، سرفصل‌ها،
+        مدت و هزینه درج می‌شود.
+      </p>
+    </div>
+
+    <div id="coursesContainer">
+      <div class="loading">در حال دریافت کلاس‌ها...</div>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       EVENTS
+  ========================= -->
+
+  <section id="eventsPage" class="page">
+
+    <button class="back-button" onclick="goHome()">
+      🔙 بازگشت
+    </button>
+
+    <h2 class="page-title">🎟️ ایونت‌ها</h2>
+
+    <div class="guide-box">
+      <h3>راهنمای ایونت‌ها</h3>
+      <p>
+        ایونت‌های فعال کائنات‌چی در این بخش نمایش داده می‌شوند.
+        اطلاعاتی مثل تاریخ، ساعت، نحوه برگزاری، ظرفیت و هزینه
+        هر ایونت در صفحه آن قرار می‌گیرد.
+      </p>
+    </div>
+
+    <div id="eventsContainer">
+      <div class="loading">در حال دریافت ایونت‌ها...</div>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FAQ
+  ========================= -->
+
+  <section id="faqPage" class="page">
+
+    <button class="back-button" onclick="goHome()">
+      🔙 بازگشت
+    </button>
+
+    <h2 class="page-title">❓ سؤالات متداول</h2>
+
+    <div id="faqContainer">
+      <div class="loading">در حال دریافت سؤالات...</div>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       HOURS
+  ========================= -->
+
+  <section id="hoursPage" class="page">
+
+    <button class="back-button" onclick="goHome()">
+      🔙 بازگشت
+    </button>
+
+    <h2 class="page-title">🕐 ساعات کاری</h2>
+
+    <div class="content-card">
+
+      <h3>ساعات پاسخ‌گویی و ارائه خدمات</h3>
+
+      <p>
+        شنبه تا چهارشنبه<br>
+        ۱۱:۰۰ تا ۱۴:۰۰<br>
+        ۱۵:۰۰ تا ۱۹:۰۰
+      </p>
+
+      <br>
+
+      <p>
+        پنجشنبه<br>
+        ۱۱:۰۰ تا ۱۴:۰۰
+      </p>
+
+      <br>
+
+      <p>
+        🌿 برای هماهنگی و ارتباط، لطفاً از طریق پیام
+        با کائنات‌چی در تماس باشید.
+      </p>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+  /* =====================================================
+     TELEGRAM
+  ===================================================== */
+
+  const tg = window.Telegram && window.Telegram.WebApp
+    ? window.Telegram.WebApp
+    : null;
+
+  if (tg) {
+    tg.ready();
+    tg.expand();
+  }
+
+
+  /* =====================================================
+     CMS URL
+     
+     بعداً فقط این مقدار را با URL Web App پروژه
+     KaenatChi CMS جایگزین می‌کنیم.
+  ===================================================== */
+
+  const CMS_API_URL = 'PASTE_CMS_WEB_APP_URL_HERE';
+
+
+  /* =====================================================
+     EXISTING APPOINTMENT MINI APP
+     
+     این همان Mini App فعلی نوبت‌دهی است.
+     به هیچ عنوان سیستم نوبت‌دهی را بازسازی نمی‌کنیم.
+  ===================================================== */
+
+  const APPOINTMENT_URL =
+    'https://script.google.com/macros/s/AKfycbyGSzpV9iHxMsVmceAI4i5KIhbsttuD5pOkDqRK58mx-QlP60CWjg2PZfU5miLgN2ssSw/exec';
+
+
+  /* =====================================================
+     SUPPORT
+  ===================================================== */
+
+  const SUPPORT_USERNAME = '@AD_Kaenatchi';
+
+
+  /* =====================================================
+     DATA
+  ===================================================== */
+
+  let cmsData = {
+    services: [],
+    courses: [],
+    events: [],
+    faq: [],
+    pages: [],
+    settings: []
+  };
+
+
+  /* =====================================================
+     INIT
+  ===================================================== */
+
+  document.addEventListener('DOMContentLoaded', function() {
+
+    loadCMSData();
+
+  });
+
+
+  /* =====================================================
+     LOAD CMS
+  ===================================================== */
+
+  async function loadCMSData() {
+
+    if (
+      !CMS_API_URL ||
+      CMS_API_URL === 'PASTE_CMS_WEB_APP_URL_HERE'
+    ) {
+
+      useEmptyCMS();
+
+      return;
+    }
+
+    try {
+
+      const response = await fetch(
+        CMS_API_URL + '?action=getMiniAppData'
+      );
+
+      if (!response.ok) {
+        throw new Error('خطا در دریافت اطلاعات CMS');
+      }
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error('CMS response failed');
+      }
+
+      cmsData = data;
+
+      renderAll();
+
+    } catch (error) {
+
+      console.error(error);
+
+      useEmptyCMS();
+
+    }
+
+  }
+
+
+  /* =====================================================
+     EMPTY CMS
+  ===================================================== */
+
+  function useEmptyCMS() {
+
+    cmsData = {
+      services: [],
+      courses: [],
+      events: [],
+      faq: [],
+      pages: [],
+      settings: []
+    };
+
+    renderAll();
+
+  }
+
+
+  /* =====================================================
+     RENDER ALL
+  ===================================================== */
+
+  function renderAll() {
+
+    renderServices();
+    renderCourses();
+    renderEvents();
+    renderFAQ();
+
+  }
+
+
+  /* =====================================================
+     SERVICES
+  ===================================================== */
+
+  function renderServices() {
+
+    const container =
+      document.getElementById('servicesContainer');
+
+    const services = [...(cmsData.services || [])];
+
+    services.sort(function(a, b) {
+
+      return Number(a['ترتیب'] || 999)
+        - Number(b['ترتیب'] || 999);
+
+    });
+
+
+    if (!services.length) {
+
+      container.innerHTML = `
+        <div class="empty">
+          هنوز خدمتی برای نمایش ثبت نشده است.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML = services.map(function(service, index) {
+
+      const name =
+        escapeHTML(service['نام خدمت'] || 'خدمت');
+
+      const shortDescription =
+        escapeHTML(service['توضیح کوتاه'] || '');
+
+      return `
+        <button
+          class="menu-button"
+          onclick="showServiceDetail(${index})"
+        >
+          <span>
+            ${name}
+            ${
+              shortDescription
+                ? `<small style="
+                    display:block;
+                    margin-top:4px;
+                    color:#7b857e;
+                    font-size:11px;
+                    font-weight:500;
+                  ">${shortDescription}</small>`
+                : ''
+            }
+          </span>
+
+          <span class="button-arrow">‹</span>
+        </button>
+      `;
+
+    }).join('');
+
+  }
+
+
+  /* =====================================================
+     SERVICE DETAIL
+  ===================================================== */
+
+  function showServiceDetail(index) {
+
+    const services = [...(cmsData.services || [])];
+
+    services.sort(function(a, b) {
+
+      return Number(a['ترتیب'] || 999)
+        - Number(b['ترتیب'] || 999);
+
+    });
+
+    const service = services[index];
+
+    if (!service) {
+      return;
+    }
+
+
+    const name =
+      escapeHTML(service['نام خدمت'] || 'خدمت');
+
+    const shortDescription =
+      escapeHTML(service['توضیح کوتاه'] || '');
+
+    const fullDescription =
+      escapeHTML(service['توضیحات کامل'] || '');
+
+    const price =
+      escapeHTML(service['قیمت'] || '');
+
+    const image =
+      String(service['تصویر'] || '').trim();
+
+
+    let html = '';
+
+    if (image) {
+
+      html += `
+        <img
+          class="content-image"
+          src="${escapeAttribute(image)}"
+          alt="${escapeAttribute(name)}"
+          onerror="this.style.display='none';"
+        >
+      `;
+
+    }
+
+
+    html += `
+      <div class="content-card">
+
+        <h3>${name}</h3>
+
+        ${
+          shortDescription
+            ? `<p>${shortDescription}</p>`
+            : ''
+        }
+
+        ${
+          fullDescription
+            ? `
+              <p style="margin-top:12px;">
+                ${fullDescription}
+              </p>
+            `
+            : ''
+        }
+
+        ${
+          price
+            ? `<span class="price">💳 ${price}</span>`
+            : ''
+        }
+
+        <button
+          class="appointment-small"
+          onclick="openAppointment()"
+        >
+          📅 دریافت نوبت
+        </button>
+
+      </div>
+    `;
+
+
+    document.getElementById(
+      'serviceDetailContainer'
+    ).innerHTML = html;
+
+
+    showPage('serviceDetailPage');
+
+  }
+
+
+  /* =====================================================
+     COURSES
+  ===================================================== */
+
+  function renderCourses() {
+
+    const container =
+      document.getElementById('coursesContainer');
+
+    const courses = cmsData.courses || [];
+
+
+    if (!courses.length) {
+
+      container.innerHTML = `
+        <div class="empty">
+          در حال حاضر کلاس فعالی ثبت نشده است.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML = courses.map(function(course) {
+
+      const name =
+        escapeHTML(course['نام دوره'] || 'دوره');
+
+      const shortDescription =
+        escapeHTML(course['توضیح کوتاه'] || '');
+
+      const fullDescription =
+        escapeHTML(course['توضیحات کامل'] || '');
+
+      const topics =
+        escapeHTML(course['سرفصل‌ها'] || '');
+
+      const duration =
+        escapeHTML(course['مدت'] || '');
+
+      const cost =
+        escapeHTML(course['هزینه'] || '');
+
+      const image =
+        String(course['تصویر'] || '').trim();
+
+
+      return `
+        <div class="content-card">
+
+          ${
+            image
+              ? `
+                <img
+                  class="content-image"
+                  src="${escapeAttribute(image)}"
+                  alt="${escapeAttribute(name)}"
+                  onerror="this.style.display='none';"
+                >
+              `
+              : ''
+          }
+
+          <h3>${name}</h3>
+
+          ${
+            shortDescription
+              ? `<p>${shortDescription}</p>`
+              : ''
+          }
+
+          ${
+            fullDescription
+              ? `
+                <p style="margin-top:10px;">
+                  ${fullDescription}
+                </p>
+              `
+              : ''
+          }
+
+          ${
+            topics
+              ? `
+                <p style="margin-top:10px;">
+                  <strong>سرفصل‌ها:</strong><br>
+                  ${topics}
+                </p>
+              `
+              : ''
+          }
+
+          ${
+            duration
+              ? `<span class="price">⏱ ${duration}</span>`
+              : ''
+          }
+
+          ${
+            cost
+              ? `<span class="price">💳 ${cost}</span>`
+              : ''
+          }
+
+        </div>
+      `;
+
+    }).join('');
+
+  }
+
+
+  /* =====================================================
+     EVENTS
+  ===================================================== */
+
+  function renderEvents() {
+
+    const container =
+      document.getElementById('eventsContainer');
+
+    const events = cmsData.events || [];
+
+
+    if (!events.length) {
+
+      container.innerHTML = `
+        <div class="empty">
+          در حال حاضر ایونت فعالی ثبت نشده است.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML = events.map(function(event) {
+
+      const name =
+        escapeHTML(event['نام ایونت'] || 'ایونت');
+
+      const shortDescription =
+        escapeHTML(event['توضیح کوتاه'] || '');
+
+      const fullDescription =
+        escapeHTML(event['توضیحات کامل'] || '');
+
+      const date =
+        escapeHTML(event['تاریخ'] || '');
+
+      const time =
+        escapeHTML(event['ساعت'] || '');
+
+      const method =
+        escapeHTML(event['نحوه برگزاری'] || '');
+
+      const capacity =
+        escapeHTML(event['ظرفیت'] || '');
+
+      const cost =
+        escapeHTML(event['هزینه'] || '');
+
+
+      return `
+        <div class="content-card">
+
+          <h3>${name}</h3>
+
+          ${
+            shortDescription
+              ? `<p>${shortDescription}</p>`
+              : ''
+          }
+
+          ${
+            fullDescription
+              ? `
+                <p style="margin-top:10px;">
+                  ${fullDescription}
+                </p>
+              `
+              : ''
+          }
+
+          ${
+            date
+              ? `<span class="price">📅 ${date}</span>`
+              : ''
+          }
+
+          ${
+            time
+              ? `<span class="price">🕐 ${time}</span>`
+              : ''
+          }
+
+          ${
+            method
+              ? `<span class="price">📍 ${method}</span>`
+              : ''
+          }
+
+          ${
+            capacity
+              ? `<span class="price">👥 ظرفیت: ${capacity}</span>`
+              : ''
+          }
+
+          ${
+            cost
+              ? `<span class="price">💳 ${cost}</span>`
+              : ''
+          }
+
+        </div>
+      `;
+
+    }).join('');
+
+  }
+
+
+  /* =====================================================
+     FAQ
+  ===================================================== */
+
+  function renderFAQ() {
+
+    const container =
+      document.getElementById('faqContainer');
+
+    const faq = [...(cmsData.faq || [])];
+
+    faq.sort(function(a, b) {
+
+      return Number(a['ترتیب'] || 999)
+        - Number(b['ترتیب'] || 999);
+
+    });
+
+
+    if (!faq.length) {
+
+      container.innerHTML = `
+        <div class="empty">
+          هنوز سؤال متداولی ثبت نشده است.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.innerHTML = faq.map(function(item) {
+
+      const question =
+        escapeHTML(item['سؤال'] || '');
+
+      const answer =
+        escapeHTML(item['پاسخ'] || '');
+
+      return `
+        <div class="content-card">
+
+          <h3>❓ ${question}</h3>
+
+          <p>
+            ${answer}
+          </p>
+
+        </div>
+      `;
+
+    }).join('');
+
+  }
+
+
+  /* =====================================================
+     NAVIGATION
+  ===================================================== */
+
+  function showPage(pageId) {
+
+    document.querySelectorAll('.page').forEach(function(page) {
+      page.classList.remove('active');
+    });
+
+
+    const page =
+      document.getElementById(pageId);
+
+    if (page) {
+      page.classList.add('active');
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+  }
+
+
+  function goHome() {
+
+    showPage('homePage');
+
+  }
+
+
+  function showServices() {
+
+    showPage('servicesPage');
+
+  }
+
+
+  /* =====================================================
+     APPOINTMENT
+  ===================================================== */
+
+  function openAppointment() {
+
+    const url =
+      APPOINTMENT_URL;
+
+    if (tg && tg.openLink) {
+
+      tg.openLink(url);
+
+    } else {
+
+      window.location.href = url;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SUPPORT
+  ===================================================== */
+
+  function openSupport() {
+
+    const username =
+      SUPPORT_USERNAME.replace('@', '');
+
+    const url =
+      'https://t.me/' + username;
+
+
+    if (tg && tg.openTelegramLink) {
+
+      tg.openTelegramLink(url);
+
+    } else {
+
+      window.location.href = url;
+
+    }
+
+  }
+
+
+  /* =====================================================
+     SECURITY / HTML ESCAPING
+  ===================================================== */
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+  }
+
+
+  function escapeAttribute(value) {
+
+    return escapeHTML(value);
+
+  }
+
+</script>
+
+</body>
+</html>
